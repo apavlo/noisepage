@@ -21,11 +21,11 @@ fun main(execCtx: *ExecutionContext) -> int64 {
   for (@tableIterAdvance(&tvi)) {
     var pci = @tableIterGetPCI(&tvi)
     for (; @pciHasNext(pci); @pciAdvance(pci)) {
-      var col0 = @pciGetBool(pci, 0)
-      var col1 = @pciGetTinyInt(pci, 1)
+      var col0 = @pciGetBool(pci, 3)
+      var col1 = @pciGetTinyInt(pci, 4)
       var col2 = @pciGetSmallInt(pci, 2)
-      var col3 = @pciGetInt(pci, 3)
-      var col4 = @pciGetBigInt(pci, 4)
+      var col3 = @pciGetInt(pci, 1)
+      var col4 = @pciGetBigInt(pci, 0)
 
       if (col0 == true) { 
           // and 
