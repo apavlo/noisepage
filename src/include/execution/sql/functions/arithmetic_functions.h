@@ -349,6 +349,7 @@ UNARY_MATH_EXPENSIVE_HIDE_NULL(Ln, Real, Real, std::log);
 UNARY_MATH_EXPENSIVE_HIDE_NULL(Log2, Real, Real, std::log2);
 UNARY_MATH_EXPENSIVE_HIDE_NULL(Log10, Real, Real, std::log10);
 UNARY_MATH_EXPENSIVE_HIDE_NULL(Exp, Real, Real, std::exp);
+UNARY_MATH_EXPENSIVE_HIDE_NULL(Round, Real, Real, std::round);
 
 BINARY_MATH_EXPENSIVE_HIDE_NULL(Atan2, Real, Real, Real, std::atan2);
 BINARY_MATH_EXPENSIVE_HIDE_NULL(Pow, Real, Real, Real, std::pow);
@@ -384,20 +385,12 @@ inline void ArithmeticFunctions::Degrees(Real *result, const Real &v) {
   *result = Real(v.val_ * 180.0 / M_PI);
 }
 
-inline void ArithmeticFunctions::Round(Real *result, const Real &v) {
-  if (v.is_null_) {
-    *result = Real::Null();
-    return;
-  }
-  *result = Real(false, double(int(v.val_ + ((v.val_ < 0) ? -0.5 : 0.5))));
-}
-
 inline void ArithmeticFunctions::RoundUpTo(Real *result, const Real &v, const Integer &scale) {
   if (v.is_null_ || scale.is_null_) {
     *result = Real::Null();
     return;
   }
-  *result = Real(std::floor(v.val_ * std::pow(10.0, scale.val_) + 0.5) / std::pow(10.0, scale.val_));
+  *result = Real(std::round(v.val_ * std::pow(10.0, scale.val_)) / std::pow(10.0, scale.val_));
 }
 
 inline void ArithmeticFunctions::Log(Real *result, const Real &base, const Real &val) {
