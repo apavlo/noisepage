@@ -1533,6 +1533,8 @@ void BytecodeGenerator::VisitBuiltinTrigCall(ast::CallExpr *call, ast::Builtin b
     }
     case ast::Builtin::Log10: {
       Emitter()->Emit(Bytecode::Log10, dest, src);
+      break;
+    }
     case ast::Builtin::Log2: {
       Emitter()->Emit(Bytecode::Log2, dest, src);
       break;
@@ -2268,7 +2270,7 @@ void BytecodeGenerator::VisitBuiltinCallExpr(ast::CallExpr *call) {
     case ast::Builtin::Cos:
     case ast::Builtin::Cot:
     case ast::Builtin::Sin:
-    case ast::Builtin::Floor: //added
+    case ast::Builtin::Floor:
     case ast::Builtin::Ceil:
     case ast::Builtin::Log10:
     case ast::Builtin::Tan: {

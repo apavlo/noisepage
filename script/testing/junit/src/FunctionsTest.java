@@ -154,9 +154,9 @@ public class FunctionsTest extends TestUtility {
             boolean exists = rs.next();
             assert(exists);
             if (is_null) {
-                checkIntRow(rs, new String[]{"result"}, new int[1]);
+                checkIntRow(rs, new String[]{"result"}, new Integer[1]);
             } else {
-                checkIntRow(rs, new String[]{"result"}, new int[]{expected});
+                checkIntRow(rs, new String[]{"result"}, new Integer[]{expected});
             }
             assertNoMoreRows(rs);
         }

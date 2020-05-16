@@ -1337,7 +1337,6 @@ void Sema::CheckMathTrigCall(ast::CallExpr *call, ast::Builtin builtin) {
     case ast::Builtin::Ceil:
     case ast::Builtin::Log10:
     case ast::Builtin::ASin:
-    case ast::Builtin::ATan:
     case ast::Builtin::Log2: {
       if (!CheckArgCount(call, 1)) {
         return;
