@@ -223,7 +223,7 @@ class EXPORT ArithmeticFunctions {
   /**
    * Rounding with scale
    */
-  static void RoundUpTo(Real *result, const Real &v, const Integer &scale);
+  static void Round(Real *result, const Real &v, const Integer &precision);
 
   /**
    * Logarithm with base
@@ -385,12 +385,12 @@ inline void ArithmeticFunctions::Degrees(Real *result, const Real &v) {
   *result = Real(v.val_ * 180.0 / M_PI);
 }
 
-inline void ArithmeticFunctions::RoundUpTo(Real *result, const Real &v, const Integer &scale) {
-  if (v.is_null_ || scale.is_null_) {
+inline void ArithmeticFunctions::Round(Real *result, const Real &v, const Integer &precision) {
+  if (v.is_null_ || precision.is_null_) {
     *result = Real::Null();
     return;
   }
-  *result = Real(std::round(v.val_ * std::pow(10.0, scale.val_)) / std::pow(10.0, scale.val_));
+  *result = Real(std::round(v.val_ * std::pow(10.0, precision.val_)) / std::pow(10.0, precision.val_));
 }
 
 inline void ArithmeticFunctions::Log(Real *result, const Real &base, const Real &val) {

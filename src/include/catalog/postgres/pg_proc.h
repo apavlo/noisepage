@@ -88,6 +88,6 @@ constexpr proc_oid_t LENGTH_PRO_OID = proc_oid_t(114);
 constexpr proc_oid_t SQRT_PRO_OID = proc_oid_t(130);
 constexpr proc_oid_t CBRT_PRO_OID = proc_oid_t(131);
 constexpr proc_oid_t ROUND_PRO_OID = proc_oid_t(136);
-constexpr proc_oid_t ROUNDUPTO_PRO_OID = proc_oid_t(200);
+constexpr proc_oid_t ROUND2_PRO_OID = proc_oid_t(157);
 
 }  // namespace terrier::catalog::postgres

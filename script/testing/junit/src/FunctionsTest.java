@@ -130,9 +130,9 @@ public class FunctionsTest extends TestUtility {
         assertNoMoreRows(rs);
     }
 
-    private void checkRoundUpToFunc(String func_name, String col_name, String scale, boolean is_null, Double expected) throws SQLException {
+    private void checkFuncRound2(String func_name, String col_name, String precision, boolean is_null, Double expected) throws SQLException {
         String sql = String.format("SELECT %s(%s,%s) AS result FROM data WHERE is_null = %s",
-                                   func_name, col_name, scale, (is_null ? 1 : 0));
+                                   func_name, col_name, precision, (is_null ? 1 : 0));
 
         Statement stmt = conn.createStatement();
         ResultSet rs = stmt.executeQuery(sql);
@@ -233,9 +233,9 @@ public class FunctionsTest extends TestUtility {
         checkDoubleFunc("round", "double_val", true, null);
     }
     @Test
-    public void testRoundUpTo() throws SQLException {
-        checkRoundUpToFunc("roundupto", "double_val", "1", false, 12.3);
-        checkRoundUpToFunc("roundupto", "double_val", "1", true, null);
+    public void testRound2() throws SQLException {
+        checkFuncRound2("round", "double_val", "1", false, 12.3);
+        checkFuncRound2("round", "double_val", "1", true, null);
     }
 
     /**

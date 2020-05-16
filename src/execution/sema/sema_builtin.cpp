@@ -1348,7 +1348,7 @@ void Sema::CheckMathTrigCall(ast::CallExpr *call, ast::Builtin builtin) {
       }
       break;
     }
-    case ast::Builtin::RoundUpTo: {
+    case ast::Builtin::Round2: {
       // input arguments may include decimal places
       if (!CheckArgCount(call, 2)) {
         return;
@@ -2585,7 +2585,7 @@ void Sema::CheckBuiltinCall(ast::CallExpr *call) {
     case ast::Builtin::Sqrt:
     case ast::Builtin::Cbrt:
     case ast::Builtin::Round:
-    case ast::Builtin::RoundUpTo: {
+    case ast::Builtin::Round2: {
       CheckMathTrigCall(call, builtin);
       break;
     }

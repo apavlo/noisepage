@@ -1800,8 +1800,8 @@ void DatabaseCatalog::BootstrapProcs(const common::ManagedPointer<transaction::T
 
 #undef BOOTSTRAP_TRIG_FN
 
-  // roundupto
-  CreateProcedure(txn, postgres::ROUNDUPTO_PRO_OID, "roundupto", postgres::INTERNAL_LANGUAGE_OID,
+  // round2
+  CreateProcedure(txn, postgres::ROUND2_PRO_OID, "round", postgres::INTERNAL_LANGUAGE_OID,
                   postgres::NAMESPACE_DEFAULT_NAMESPACE_OID, {"y", "x"}, {dec_type, int_type}, {dec_type, int_type}, {},
                   dec_type, "", true);
 
@@ -1874,11 +1874,11 @@ void DatabaseCatalog::BootstrapProcContexts(const common::ManagedPointer<transac
 
 #undef BOOTSTRAP_TRIG_FN
 
-  // roundupto
-  func_context = new execution::functions::FunctionContext("roundupto", type::TypeId::DECIMAL, {type::TypeId::DECIMAL},
-                                                           execution::ast::Builtin::RoundUpTo);
+  // round2
+  func_context = new execution::functions::FunctionContext("round", type::TypeId::DECIMAL, {type::TypeId::DECIMAL},
+                                                           execution::ast::Builtin::Round2);
   txn->RegisterAbortAction([=]() { delete func_context; });
-  SetProcCtxPtr(txn, postgres::ROUNDUPTO_PRO_OID, func_context);
+  SetProcCtxPtr(txn, postgres::ROUND2_PRO_OID, func_context);
 
   // lower
   func_context = new execution::functions::FunctionContext("lower", type::TypeId::VARCHAR, {type::TypeId::VARCHAR},
