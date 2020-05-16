@@ -100,9 +100,9 @@ public class FunctionsTest extends TestUtility {
      * UDF statement tests
      * ---------------------------------------------
      */
-    private void checkDoubleBinaryFunc(String func_name, String col1, String col2, boolean is_null, Double expected) throws SQLException {
-        String sql = String.format("SELECT %s(%s, %s) AS result FROM data WHERE is_null = %s",
-                                    func_name, col1, col2, (is_null ? 1 : 0));
+    private void checkDoubleInfixFunc(String operator, String col1, String col2, boolean is_null, Double expected) throws SQLException {
+        String sql = String.format("SELECT %s %s %s AS result FROM data WHERE is_null = %s",
+                                    col1, operator, col2, (is_null ? 1 : 0));
         Statement stmt = conn.createStatement();
         ResultSet rs = stmt.executeQuery(sql);
         boolean exists = rs.next();
@@ -168,8 +168,8 @@ public class FunctionsTest extends TestUtility {
     }
     @Test
     public void testMod() throws SQLException {
-        checkDoubleBinaryFunc("mod", "double_val", "mod_val", false, 0.34);
-        checkDoubleBinaryFunc("mod", "double_val", "mod_val", true, null);
+        checkDoubleInfixFunc("%", "double_val", "mod_val", false, 0.34);
+        checkDoubleInfixFunc("%", "double_val", "mod_val", true, null);
     }
     /**
      * String Functions
