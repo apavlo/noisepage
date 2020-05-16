@@ -152,6 +152,15 @@ void OpAggregationHashTableIteratorFree(terrier::execution::sql::AggregationHash
   iter->~AggregationHashTableIterator();
 }
 
+// ---------------------------------------------------------------
+// Timestamp Functions
+// ---------------------------------------------------------------
+void OpNow(terrier::execution::sql::TimestampVal *result, terrier::execution::exec::ExecutionContext *exec_ctx) {
+  *result = terrier::execution::sql::TimestampVal(
+      static_cast<terrier::execution::sql::Timestamp::NativeType>(exec_ctx->GetTxn()->StartTime()));
+}
+
+
 // ---------------------------------------------------------
 // Sorters
 // ---------------------------------------------------------

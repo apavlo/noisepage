@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.sql.Types.*;
+import java.sql.Timestamp;
 
 import org.junit.After;
 import org.junit.Before;
@@ -149,7 +150,7 @@ public class FunctionsTest extends TestUtility {
         checkDoubleFunc("tan", "double_val", false, -0.230318);
         checkDoubleFunc("tan", "double_val", true, null);
     }
-    
+
     /**
      * String Functions
      */
@@ -157,6 +158,43 @@ public class FunctionsTest extends TestUtility {
     public void testLower() throws SQLException {
         checkStringFunc("lower", "str_a_val", false, "abcdef");
         checkStringFunc("lower", "str_a_val", true, null);
+    }
+
+    @Test
+    public void testNowFunction() throws SQLException {
+        String sql = String.format("SELECT NOW() FROM data");
+
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(sql);
+        rs.next();
+        String t11 = rs.getString("now()");
+        rs.next();
+        String t12 = rs.getString("now()");
+        assert(t11 == t12);
+        assertNoMoreRows(rs);
+
+        String sql2 = String.format("SELECT NOW() FROM data");
+
+        Statement stmt2 = conn.createStatement();
+        ResultSet rs2 = stmt2.executeQuery(sql2);
+        rs2.next();
+        String t21 = rs2.getString("now()");
+        rs2.next();
+        String t22 = rs2.getString("now()");
+        assert(t21 == t22);
+        assertNoMoreRows(rs2);
+
+        // As of now since the transaction's begin timestamp is fetched by the function a
+        // negative value is returned in the query output.
+        // Due to this we have to remove the negative sign and make the
+        // comparision in the reverse manner.
+        t11 = t11.substring(1);
+        t21 = t21.substring(1);
+
+        Timestamp t1 = Timestamp.valueOf(t11);
+        Timestamp t2 = Timestamp.valueOf(t21);
+
+        assert(t2.before(t1));
     }
 
 }

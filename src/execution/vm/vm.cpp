@@ -876,6 +876,13 @@ void VM::Interpret(const uint8_t *ip, Frame *frame) {
     DISPATCH_NEXT();
   }
 
+  OP(Now) : {
+    auto *sql_timestamp = frame->LocalAt<sql::TimestampVal *>(READ_LOCAL_ID());
+    auto exec_ctx = frame->LocalAt<exec::ExecutionContext *>(READ_LOCAL_ID());
+    OpNow(sql_timestamp, exec_ctx);
+    DISPATCH_NEXT();
+  }
+
 #define GEN_CMP(op)                                                     \
   OP(op##BoolVal) : {                                                   \
     auto *result = frame->LocalAt<sql::BoolVal *>(READ_LOCAL_ID());     \

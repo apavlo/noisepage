@@ -1519,6 +1519,12 @@ void BytecodeGenerator::VisitBuiltinTrigCall(ast::CallExpr *call, ast::Builtin b
   ExecutionResult()->SetDestination(dest.ValueOf());
 }
 
+void BytecodeGenerator::VisitBuiltinNowCall(ast::CallExpr *call, ast::Builtin builtin) {
+  LocalVar result = ExecutionResult()->GetOrCreateDestination(call->GetType());
+  LocalVar exec_ctx = VisitExpressionForRValue(call->Arguments()[0]);
+  Emitter()->Emit(Bytecode::Now, result, exec_ctx);
+}
+
 void BytecodeGenerator::VisitBuiltinSizeOfCall(ast::CallExpr *call) {
   ast::Type *target_type = call->Arguments()[0]->GetType();
   LocalVar size_var = ExecutionResult()->GetOrCreateDestination(
@@ -2236,6 +2242,10 @@ void BytecodeGenerator::VisitBuiltinCallExpr(ast::CallExpr *call) {
     case ast::Builtin::Sin:
     case ast::Builtin::Tan: {
       VisitBuiltinTrigCall(call, builtin);
+      break;
+    }
+    case ast::Builtin::Now: {
+      VisitBuiltinNowCall(call, builtin);
       break;
     }
     case ast::Builtin::SizeOf: {

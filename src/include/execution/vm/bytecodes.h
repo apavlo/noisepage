@@ -486,7 +486,10 @@ namespace terrier::execution::vm {
   F(GetParamDouble, OperandType::Local, OperandType::Local, OperandType::Local)                                       \
   F(GetParamDateVal, OperandType::Local, OperandType::Local, OperandType::Local)                                      \
   F(GetParamTimestampVal, OperandType::Local, OperandType::Local, OperandType::Local)                                 \
-  F(GetParamString, OperandType::Local, OperandType::Local, OperandType::Local)
+  F(GetParamString, OperandType::Local, OperandType::Local, OperandType::Local)                                       \
+                                                                                                                      \
+  /* Timestamp functions */                                                                                           \
+  F(Now, OperandType::Local, OperandType::Local)
 
 /**
  * The single enumeration of all possible bytecode instructions

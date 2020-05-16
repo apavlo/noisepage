@@ -244,7 +244,11 @@ namespace terrier::execution::ast {
   F(GetParamString, getParamString)                                     \
                                                                         \
   /* String functions */                                                \
-  F(Lower, lower)
+  F(Lower, lower)                                                       \
+                                                                        \
+  /* Timestamp functions */                                             \
+  F(Now, now)                                                           \
+
 
 /**
  * Enum of builtins

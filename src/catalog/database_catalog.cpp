@@ -1783,6 +1783,11 @@ void DatabaseCatalog::BootstrapProcs(const common::ManagedPointer<transaction::T
   CreateProcedure(txn, postgres::LOWER_PRO_OID, "lower", postgres::INTERNAL_LANGUAGE_OID,
                   postgres::NAMESPACE_DEFAULT_NAMESPACE_OID, {"str"}, {str_type}, {str_type}, {}, str_type, "", true);
 
+  // Now
+  auto timestamp_type = GetTypeOidForType(type::TypeId::TIMESTAMP);
+  CreateProcedure(txn, postgres::NOW_PRO_OID, "now", postgres::INTERNAL_LANGUAGE_OID,
+                  postgres::NAMESPACE_DEFAULT_NAMESPACE_OID, {}, {}, {}, {}, timestamp_type, "", true);
+
   // TODO(tanujnay112): no op codes for lower and upper yet
 
   BootstrapProcContexts(txn);
@@ -1825,6 +1830,11 @@ void DatabaseCatalog::BootstrapProcContexts(const common::ManagedPointer<transac
   func_context = new execution::functions::FunctionContext("lower", type::TypeId::VARCHAR, {type::TypeId::VARCHAR},
                                                            execution::ast::Builtin::Lower, true);
   SetProcCtxPtr(txn, postgres::LOWER_PRO_OID, func_context);
+  txn->RegisterAbortAction([=]() { delete func_context; });
+
+  func_context = new execution::functions::FunctionContext("now", type::TypeId::TIMESTAMP, {},
+                                                           execution::ast::Builtin::Now, true);
+  SetProcCtxPtr(txn, postgres::NOW_PRO_OID, func_context);
   txn->RegisterAbortAction([=]() { delete func_context; });
 }
 
