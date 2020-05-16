@@ -113,6 +113,18 @@ public class FunctionsTest extends TestUtility {
         }
         assertNoMoreRows(rs);
     }
+
+    private void checkRoundFunc(String func_name, String col_name, boolean is_null, Integer expected) throws SQLException {
+        String sql = String.format("SELECT %s(%s) AS result FROM data WHERE is_null = %s",
+                                   func_name, col_name, (is_null ? 1 : 0));
+
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(sql);
+        boolean exists = rs.next();
+        assert(exists);
+        checkIntRow(rs, new String[]{"result"}, new int[]{expected});
+        assertNoMoreRows(rs);
+    }
     
     private void checkStringFunc(String func_name, String col_name, boolean is_null, String expected) throws SQLException {
         String sql = String.format("SELECT %s(%s) AS result FROM data WHERE is_null = %s",
@@ -149,7 +161,10 @@ public class FunctionsTest extends TestUtility {
         checkDoubleFunc("tan", "double_val", false, -0.230318);
         checkDoubleFunc("tan", "double_val", true, null);
     }
-    
+    @Test
+    public void testRound() throws SQLException {
+        checkRoundFunc("round", "double_val", false, 12);
+    }
     /**
      * String Functions
      */

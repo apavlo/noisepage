@@ -151,6 +151,8 @@ namespace terrier::execution::ast {
   F(Cot, cot)                                                           \
   F(Sin, sin)                                                           \
   F(Tan, tan)                                                           \
+  F(Round, round)                                                       \
+  F(RoundUpTo, roundUpTo)                                               \
                                                                         \
   /* Generic */                                                         \
   F(SizeOf, sizeOf)                                                     \
