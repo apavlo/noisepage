@@ -158,7 +158,6 @@ namespace terrier::execution::ast {
   F(SizeOf, sizeOf)                                                     \
   F(PtrCast, ptrCast)                                                   \
                                                                         \
-                                                                        \
   /* Output Buffer */                                                   \
   F(OutputAlloc, outputAlloc)                                           \
   F(OutputFinalize, outputFinalize)                                     \
