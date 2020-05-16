@@ -2259,6 +2259,7 @@ void BytecodeGenerator::VisitBuiltinCallExpr(ast::CallExpr *call) {
     }
     case ast::Builtin::Log2: {
       VisitBuiltinTrigCall(call, builtin);
+      break;
     }
     case ast::Builtin::SizeOf: {
       VisitBuiltinSizeOfCall(call);
