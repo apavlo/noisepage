@@ -169,8 +169,13 @@ public class FunctionsTest extends TestUtility {
     @Test
     public void testRound() throws SQLException {
         checkDoubleFunc("round", "double_val", false, 12.0);
+        checkDoubleFunc("round", "double_val", true, null);
     }
-
+    @Test
+    public void testRoundUpTo() throws SQLException {
+        checkRoundUpToFunc("roundupto", "double_val", "1", false, 12.3);
+        checkRoundUpToFunc("roundupto", "double_val", "1", true, null);
+    }
     /**
      * String Functions
      */
