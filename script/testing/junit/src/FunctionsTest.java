@@ -129,6 +129,22 @@ public class FunctionsTest extends TestUtility {
         }
         assertNoMoreRows(rs);
     }
+
+    private void checkStringFunc(String func_name, String col_name, boolean is_null, int expected) throws SQLException {
+        String sql = String.format("SELECT %s(%s) AS result FROM data WHERE is_null = %s",
+                                   func_name, col_name, (is_null ? 1 : 0));
+
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(sql);
+        boolean exists = rs.next();
+        assert(exists);
+        if (is_null) {
+            checkIntegerRow(rs, new String[]{"result"}, new Integer[]{null});
+        } else {
+            checkIntegerRow(rs, new String[]{"result"}, new Integer[]{expected});
+        }
+        assertNoMoreRows(rs);
+    }
      
     /**
      * Tests usage of trig udf functions
