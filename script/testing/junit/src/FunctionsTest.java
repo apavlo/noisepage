@@ -113,7 +113,23 @@ public class FunctionsTest extends TestUtility {
         }
         assertNoMoreRows(rs);
     }
-    
+
+    private void checkRoundUpToFunc(String func_name, String col_name, String scale, boolean is_null, Double expected) throws SQLException {
+        String sql = String.format("SELECT %s(%s,%s) AS result FROM data WHERE is_null = %s",
+                                   func_name, col_name, scale, (is_null ? 1 : 0));
+
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(sql);
+        boolean exists = rs.next();
+        assert(exists);
+        if (is_null) {
+            checkDoubleRow(rs, new String[]{"result"}, new Double[]{null});
+        } else {
+            checkDoubleRow(rs, new String[]{"result"}, new Double[]{expected});
+        }
+        assertNoMoreRows(rs);
+    }
+
     private void checkStringFunc(String func_name, String col_name, boolean is_null, String expected) throws SQLException {
         String sql = String.format("SELECT %s(%s) AS result FROM data WHERE is_null = %s",
                                    func_name, col_name, (is_null ? 1 : 0));
@@ -165,7 +181,6 @@ public class FunctionsTest extends TestUtility {
         checkDoubleFunc("tan", "double_val", false, -0.230318);
         checkDoubleFunc("tan", "double_val", true, null);
     }
-
     @Test
     public void testSqrt() throws SQLException {
         checkDoubleFunc("sqrt", "double_val", false, 3.512834);
@@ -176,7 +191,17 @@ public class FunctionsTest extends TestUtility {
         checkDoubleFunc("cbrt", "double_val", false, 2.310850);
         checkDoubleFunc("cbrt", "double_val", true, null);
     }
-    
+    @Test
+    public void testRound() throws SQLException {
+        checkDoubleFunc("round", "double_val", false, 12.0);
+        checkDoubleFunc("round", "double_val", true, null);
+    }
+    @Test
+    public void testRoundUpTo() throws SQLException {
+        checkRoundUpToFunc("roundupto", "double_val", "1", false, 12.3);
+        checkRoundUpToFunc("roundupto", "double_val", "1", true, null);
+    }
+
     /**
      * String Functions
      */

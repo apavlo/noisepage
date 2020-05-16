@@ -153,6 +153,8 @@ namespace terrier::execution::ast {
   F(Tan, tan)                                                           \
   F(Sqrt, sqrt)                                                         \
   F(Cbrt, cbrt)                                                         \
+  F(Round, round)                                                       \
+  F(RoundUpTo, roundUpTo)                                               \
                                                                         \
   /* Generic */                                                         \
   F(SizeOf, sizeOf)                                                     \

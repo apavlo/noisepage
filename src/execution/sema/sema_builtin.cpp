@@ -1307,6 +1307,7 @@ void Sema::CheckBuiltinFilterManagerCall(ast::CallExpr *const call, const ast::B
 
 void Sema::CheckMathTrigCall(ast::CallExpr *call, ast::Builtin builtin) {
   const auto real_kind = ast::BuiltinType::Real;
+  const auto int_kind = ast::BuiltinType::Integer;
 
   const auto &call_args = call->Arguments();
   switch (builtin) {
@@ -1332,12 +1333,29 @@ void Sema::CheckMathTrigCall(ast::CallExpr *call, ast::Builtin builtin) {
     case ast::Builtin::ASin:
     case ast::Builtin::ATan:
     case ast::Builtin::Sqrt:
-    case ast::Builtin::Cbrt: {
+    case ast::Builtin::Cbrt:
+    case ast::Builtin::Round: {
       if (!CheckArgCount(call, 1)) {
         return;
       }
       if (!call_args[0]->GetType()->IsSpecificBuiltin(real_kind)) {
         ReportIncorrectCallArg(call, 0, GetBuiltinType(real_kind));
+        return;
+      }
+      break;
+    }
+    case ast::Builtin::RoundUpTo: {
+      // input arguments may include decimal places
+      if (!CheckArgCount(call, 2)) {
+        return;
+      }
+      if (!call_args[0]->GetType()->IsSpecificBuiltin(real_kind)) {
+        ReportIncorrectCallArg(call, 0, GetBuiltinType(real_kind));
+        return;
+      }
+      // check to make sure the decimal_places argument is an integer
+      if (!call_args[1]->GetType()->IsSpecificBuiltin(int_kind)) {
+        ReportIncorrectCallArg(call, 1, GetBuiltinType(int_kind));
         return;
       }
       break;
@@ -2557,7 +2575,9 @@ void Sema::CheckBuiltinCall(ast::CallExpr *call) {
     case ast::Builtin::Sin:
     case ast::Builtin::Tan:
     case ast::Builtin::Sqrt:
-    case ast::Builtin::Cbrt: {
+    case ast::Builtin::Cbrt:
+    case ast::Builtin::Round:
+    case ast::Builtin::RoundUpTo: {
       CheckMathTrigCall(call, builtin);
       break;
     }
