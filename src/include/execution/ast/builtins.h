@@ -247,7 +247,7 @@ namespace terrier::execution::ast {
   F(Lower, lower)                                                       \
                                                                         \
   /* Math functions */                                                  \
-  F(IntMod, intmod)                                                     \
+  F(IntMod, intMod)                                                     \
   F(Mod, mod)
 
 /**
