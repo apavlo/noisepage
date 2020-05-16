@@ -128,8 +128,8 @@ void StringFunctions::Lpad(exec::ExecutionContext *ctx, StringVal *result, const
     return;
   }
 
-  // If target length equals input length, nothing to do
-  if (len.val_ == str.len_) {
+  // If target length equals input length or padding is empty string, nothing to do
+  if (len.val_ == str.len_ || pad.len_ == 0) {
     *result = str;
     return;
   }
@@ -164,8 +164,8 @@ void StringFunctions::Rpad(exec::ExecutionContext *ctx, StringVal *result, const
     return;
   }
 
-  // If target length equals input length, nothing to do
-  if (len.val_ == str.len_) {
+  // If target length equals input length or padding is empty string, nothing to do
+  if (len.val_ == str.len_ || pad.len_ == 0) {
     *result = str;
     return;
   }
