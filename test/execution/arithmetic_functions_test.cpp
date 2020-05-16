@@ -309,7 +309,7 @@ TEST_F(ArithmeticFunctionsTests, MathFuncs) {
     ArithmeticFunctions::Sign(&result, input);
     EXPECT_FALSE(result.is_null_);
     EXPECT_DOUBLE_EQ(0.0, result.val_);
-  };
+  }
 
   // RoundUpTo
   {
@@ -349,7 +349,7 @@ TEST_F(ArithmeticFunctionsTests, MathFuncs) {
     ArithmeticFunctions::RoundUpTo(&result, input, scale);
     EXPECT_FALSE(result.is_null_);
     EXPECT_DOUBLE_EQ(-12.34, result.val_);
-  };
+  }
 }
 
 }  // namespace terrier::execution::sql::test
