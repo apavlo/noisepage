@@ -218,7 +218,7 @@ class EXPORT ArithmeticFunctions {
   /**
    * Round to nearest
    */
-  static void Round(Integer *result, const Real &v);
+  static void Round(Real *result, const Real &v);
 
   /**
    * Rounding with scale
@@ -384,12 +384,12 @@ inline void ArithmeticFunctions::Degrees(Real *result, const Real &v) {
   *result = Real(v.val_ * 180.0 / M_PI);
 }
 
-inline void ArithmeticFunctions::Round(Integer *result, const Real &v) {
+inline void ArithmeticFunctions::Round(Real *result, const Real &v) {
   if (v.is_null_) {
-    *result = Integer::Null();
+    *result = Real::Null();
     return;
   }
-  *result = Integer(v.val_ + ((v.val_ < 0) ? -0.5 : 0.5));
+  *result = Real(false, double(int(v.val_ + ((v.val_ < 0) ? -0.5 : 0.5))));
 }
 
 inline void ArithmeticFunctions::RoundUpTo(Real *result, const Real &v, const Integer &scale) {

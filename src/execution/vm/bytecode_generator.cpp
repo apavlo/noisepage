@@ -1492,7 +1492,7 @@ void BytecodeGenerator::VisitBuiltinTrigCall(ast::CallExpr *call, ast::Builtin b
       break;
     }
     case ast::Builtin::ATan2: {
-      Emitter()->Emit(Bytecode::Atan2, dest, src);
+      Emitter()->Emit(Bytecode::Atan2, dest, src, VisitExpressionForRValue(call->Arguments()[1]));
       break;
     }
     case ast::Builtin::Cos: {
@@ -1516,7 +1516,7 @@ void BytecodeGenerator::VisitBuiltinTrigCall(ast::CallExpr *call, ast::Builtin b
       break;
     }
     case ast::Builtin::RoundUpTo: {
-      Emitter()->Emit(Bytecode::RoundUpTo, dest, src);
+      Emitter()->Emit(Bytecode::RoundUpTo, dest, src, VisitExpressionForRValue(call->Arguments()[1]));
       break;
     }
     default: {

@@ -1777,10 +1777,12 @@ void DatabaseCatalog::BootstrapProcs(const common::ManagedPointer<transaction::T
 
   // round
   BOOTSTRAP_TRIG_FN("round", postgres::ROUND_PRO_OID, execution::ast::Builtin::Round)
+#undef BOOTSTRAP_TRIG_FN
 
   // round up to
-  BOOTSTRAP_TRIG_FN("roundupto", postgres::ROUNDUPTO_PRO_OID, execution::ast::Builtin::RoundUpTo)
-#undef BOOTSTRAP_TRIG_FN
+  CreateProcedure(txn, postgres::ROUNDUPTO_PRO_OID, "roundupto", postgres::INTERNAL_LANGUAGE_OID,
+                  postgres::NAMESPACE_DEFAULT_NAMESPACE_OID, {"y", "x"}, {dec_type, dec_type}, {dec_type, dec_type}, {},
+                  dec_type, "", true);
 
   auto str_type = GetTypeOidForType(type::TypeId::VARCHAR);
 
@@ -1829,6 +1831,12 @@ void DatabaseCatalog::BootstrapProcContexts(const common::ManagedPointer<transac
   // round
   BOOTSTRAP_TRIG_FN("round", postgres::ROUND_PRO_OID, execution::ast::Builtin::Round)
 #undef BOOTSTRAP_TRIG_FN
+
+  // round up to
+  func_context = new execution::functions::FunctionContext("roundupto", type::TypeId::DECIMAL, {type::TypeId::DECIMAL},
+                                                                execution::ast::Builtin::RoundUpTo);
+  txn->RegisterAbortAction([=]() { delete func_context; });
+  SetProcCtxPtr(txn, postgres::ATAN2_PRO_OID, func_context);
 
   func_context = new execution::functions::FunctionContext("lower", type::TypeId::VARCHAR, {type::TypeId::VARCHAR},
                                                            execution::ast::Builtin::Lower, true);
