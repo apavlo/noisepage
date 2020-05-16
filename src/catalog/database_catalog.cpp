@@ -1776,7 +1776,7 @@ void DatabaseCatalog::BootstrapProcs(const common::ManagedPointer<transaction::T
   BOOTSTRAP_TRIG_FN("cot", postgres::COT_PRO_OID, execution::ast::Builtin::Cot)
 
   // mod
-  BOOSTRAP_TRIG_FN("mod", postgres::MOD_PRO_OID, execution::ast::Builtin::Mod)
+  BOOTSTRAP_TRIG_FN("mod", postgres::MOD_PRO_OID, execution::ast::Builtin::Mod)
 #undef BOOTSTRAP_TRIG_FN
 
   auto str_type = GetTypeOidForType(type::TypeId::VARCHAR);
