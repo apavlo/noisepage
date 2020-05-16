@@ -2054,6 +2054,22 @@ void BytecodeGenerator::VisitBuiltinStringCall(ast::CallExpr *call, ast::Builtin
   }
 }
 
+void BytecodeGenerator::VisitBuiltinArithCall(ast::CallExpr *call, ast::Builtin builtin) {
+  LocalVar exec_ctx = VisitExpressionForRValue(call->Arguments()[0]);
+  LocalVar first_input = VisitExpressionForRValue(call->Arguments()[1]);
+  LocalVar second_input = VisitExpressionForRValue(call->Arguements()[2]);
+  LocalVar ret = ExecutionResult()->GetOrCreateDestination(call->GetType());
+  switch (builtin) {
+	case ast::Builtin::IntMod: 
+    case ast::Builtin::Mod: {
+      Emitter()->Emit(Bytecode::Lower, exec_ctx, ret, first_input, second_input);
+      break;
+    }
+    default:
+      UNREACHABLE("Unimplemented arithmetic function!");
+  }
+}
+
 void BytecodeGenerator::VisitBuiltinCallExpr(ast::CallExpr *call) {
   ast::Builtin builtin;
 
@@ -2341,6 +2357,12 @@ void BytecodeGenerator::VisitBuiltinCallExpr(ast::CallExpr *call) {
       VisitBuiltinStringCall(call, builtin);
       break;
     }
+    
+    case ast::Builtin::IntMod: 
+    case ast::Builtin::Mod: {
+		VisitBuiltinArithCall(call, builtin);
+		break;
+	}
 
     default: {
       UNREACHABLE("Builtin not supported!");
