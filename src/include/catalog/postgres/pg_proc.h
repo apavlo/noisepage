@@ -79,5 +79,11 @@ constexpr proc_oid_t TAN_PRO_OID = proc_oid_t(90);
 constexpr proc_oid_t COT_PRO_OID = proc_oid_t(91);
 constexpr proc_oid_t LOWER_PRO_OID = proc_oid_t(92);
 constexpr proc_oid_t UPPER_PRO_OID = proc_oid_t(93);
+constexpr proc_oid_t LPAD_PRO_OID = proc_oid_t(115);
+constexpr proc_oid_t LTRIM2ARG_PRO_OID = proc_oid_t(142);
+constexpr proc_oid_t LTRIM1ARG_PRO_OID = proc_oid_t(116);
+constexpr proc_oid_t RPAD_PRO_OID = proc_oid_t(121);
+constexpr proc_oid_t RTRIM2ARG_PRO_OID = proc_oid_t(144);
+constexpr proc_oid_t RTRIM1ARG_PRO_OID = proc_oid_t(120);
 
 }  // namespace terrier::catalog::postgres
