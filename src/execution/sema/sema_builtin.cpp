@@ -1329,8 +1329,10 @@ void Sema::CheckMathTrigCall(ast::CallExpr *call, ast::Builtin builtin) {
     case ast::Builtin::Sin:
     case ast::Builtin::Tan:
     case ast::Builtin::ACos:
-    case ast::Builtin::ASin:
-    case ast::Builtin::ATan: {
+    case ast::Builtin::ATan:
+    case ast::Builtin::Floor:
+    case ast::Builtin::Ceil:
+    case ast::Builtin::Log10: {
       if (!CheckArgCount(call, 1)) {
         return;
       }
@@ -2526,7 +2528,10 @@ void Sema::CheckBuiltinCall(ast::CallExpr *call) {
     case ast::Builtin::Cos:
     case ast::Builtin::Cot:
     case ast::Builtin::Sin:
-    case ast::Builtin::Tan: {
+    case ast::Builtin::Tan:
+    case ast::Builtin::Ceil:
+    case ast::Builtin::Floor:
+    case ast::Builtin::Log10: {
       CheckMathTrigCall(call, builtin);
       break;
     }
