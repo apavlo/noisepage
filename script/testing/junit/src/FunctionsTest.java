@@ -236,6 +236,7 @@ public class FunctionsTest extends TestUtility {
     public void testRoundUpTo() throws SQLException {
         checkRoundUpToFunc("roundupto", "double_val", "1", false, 12.3);
         checkRoundUpToFunc("roundupto", "double_val", "1", true, null);
+    }
 
     /**
      * String Functions
