@@ -221,7 +221,7 @@ class EXPORT ArithmeticFunctions {
   static void Round(Real *result, const Real &v);
 
   /**
-   * Rounding with scale
+   * Rounding with precision
    */
   static void Round(Real *result, const Real &v, const Integer &precision);
 
@@ -349,7 +349,6 @@ UNARY_MATH_EXPENSIVE_HIDE_NULL(Ln, Real, Real, std::log);
 UNARY_MATH_EXPENSIVE_HIDE_NULL(Log2, Real, Real, std::log2);
 UNARY_MATH_EXPENSIVE_HIDE_NULL(Log10, Real, Real, std::log10);
 UNARY_MATH_EXPENSIVE_HIDE_NULL(Exp, Real, Real, std::exp);
-UNARY_MATH_EXPENSIVE_HIDE_NULL(Round, Real, Real, std::round);
 
 BINARY_MATH_EXPENSIVE_HIDE_NULL(Atan2, Real, Real, Real, std::atan2);
 BINARY_MATH_EXPENSIVE_HIDE_NULL(Pow, Real, Real, Real, std::pow);
@@ -383,6 +382,14 @@ inline void ArithmeticFunctions::Degrees(Real *result, const Real &v) {
     return;
   }
   *result = Real(v.val_ * 180.0 / M_PI);
+}
+
+inline void ArithmeticFunctions::Round(Real *result, const Real &v) {
+  if (v.is_null_) {
+    *result = Real::Null();
+    return;
+  }
+  *result = Real(std::round(v.val_));
 }
 
 inline void ArithmeticFunctions::Round(Real *result, const Real &v, const Integer &precision) {
