@@ -1525,6 +1525,7 @@ void BytecodeGenerator::VisitBuiltinTrigCall(ast::CallExpr *call, ast::Builtin b
     }
     case ast::Builtin::Log2: {
       Emitter()->Emit(Bytecode::Log2, dest, src);
+      break;
     }
     default: {
       UNREACHABLE("Impossible trigonometric bytecode");

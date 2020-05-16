@@ -1333,6 +1333,7 @@ void Sema::CheckMathTrigCall(ast::CallExpr *call, ast::Builtin builtin) {
     case ast::Builtin::Tanh:
     case ast::Builtin::ACos:
     case ast::Builtin::ASin:
+    case ast::Builtin::Log2:
     case ast::Builtin::ATan: {
       if (!CheckArgCount(call, 1)) {
         return;
@@ -1343,7 +1344,6 @@ void Sema::CheckMathTrigCall(ast::CallExpr *call, ast::Builtin builtin) {
       }
       break;
     }
-    case ast::Builtin::Log2:
     default: {
       UNREACHABLE("Impossible math trig function call");
     }
