@@ -86,4 +86,6 @@ constexpr proc_oid_t TANH_PRO_OID = proc_oid_t(129);
 constexpr proc_oid_t FLOOR_PRO_OID = proc_oid_t(132);
 constexpr proc_oid_t LOG10_PRO_OID = proc_oid_t(134);
 constexpr proc_oid_t LOG2_PRO_OID = proc_oid_t(133);
+constexpr proc_oid_t POSITION_PRO_OID = proc_oid_t(105);
+  
 }  // namespace terrier::catalog::postgres
