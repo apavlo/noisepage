@@ -1774,8 +1774,20 @@ void DatabaseCatalog::BootstrapProcs(const common::ManagedPointer<transaction::T
   // tan
   BOOTSTRAP_TRIG_FN("tan", postgres::TAN_PRO_OID, execution::ast::Builtin::Tan)
 
+  // cosh
+  BOOTSTRAP_TRIG_FN("cosh", postgres::COSH_PRO_OID, execution::ast::Builtin::Cosh)
+
+  // sinh
+  BOOTSTRAP_TRIG_FN("sinh", postgres::SINH_PRO_OID, execution::ast::Builtin::Sinh)
+
+  // tanh
+  BOOTSTRAP_TRIG_FN("tanh", postgres::TANH_PRO_OID, execution::ast::Builtin::Tanh)
+
   // cot
   BOOTSTRAP_TRIG_FN("cot", postgres::COT_PRO_OID, execution::ast::Builtin::Cot)
+
+  // log2
+  BOOTSTRAP_TRIG_FN("log2", postgres::LOG2_PRO_OID, execution::ast::Builtin::Log2)
 
   // sqrt
   BOOTSTRAP_TRIG_FN("sqrt", postgres::SQRT_PRO_OID, execution::ast::Builtin::Sqrt)
@@ -1785,6 +1797,7 @@ void DatabaseCatalog::BootstrapProcs(const common::ManagedPointer<transaction::T
 
   // round
   BOOTSTRAP_TRIG_FN("round", postgres::ROUND_PRO_OID, execution::ast::Builtin::Round)
+
 #undef BOOTSTRAP_TRIG_FN
 
   // roundupto
@@ -1835,8 +1848,20 @@ void DatabaseCatalog::BootstrapProcContexts(const common::ManagedPointer<transac
   // tan
   BOOTSTRAP_TRIG_FN("tan", postgres::TAN_PRO_OID, execution::ast::Builtin::Tan)
 
+  // cosh
+  BOOTSTRAP_TRIG_FN("cosh", postgres::COSH_PRO_OID, execution::ast::Builtin::Cosh)
+
+  // sinh
+  BOOTSTRAP_TRIG_FN("sinh", postgres::SINH_PRO_OID, execution::ast::Builtin::Sinh)
+
+  // tanh
+  BOOTSTRAP_TRIG_FN("tanh", postgres::TANH_PRO_OID, execution::ast::Builtin::Tanh)
+
   // cot
   BOOTSTRAP_TRIG_FN("cot", postgres::COT_PRO_OID, execution::ast::Builtin::Cot)
+
+  // log2
+  BOOTSTRAP_TRIG_FN("log2", postgres::LOG2_PRO_OID, execution::ast::Builtin::Log2)
 
   // sqrt
   BOOTSTRAP_TRIG_FN("sqrt", postgres::SQRT_PRO_OID, execution::ast::Builtin::Sqrt)
@@ -1846,6 +1871,7 @@ void DatabaseCatalog::BootstrapProcContexts(const common::ManagedPointer<transac
 
   // round
   BOOTSTRAP_TRIG_FN("round", postgres::ROUND_PRO_OID, execution::ast::Builtin::Round)
+
 #undef BOOTSTRAP_TRIG_FN
 
   // roundupto

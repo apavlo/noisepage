@@ -1491,6 +1491,18 @@ void BytecodeGenerator::VisitBuiltinTrigCall(ast::CallExpr *call, ast::Builtin b
       Emitter()->Emit(Bytecode::Atan, dest, src);
       break;
     }
+    case ast::Builtin::Cosh: {
+      Emitter()->Emit(Bytecode::Cosh, dest, src);
+      break;
+    }
+    case ast::Builtin::Sinh: {
+      Emitter()->Emit(Bytecode::Sinh, dest, src);
+      break;
+    }
+    case ast::Builtin::Tanh: {
+      Emitter()->Emit(Bytecode::Tanh, dest, src);
+      break;
+    }
     case ast::Builtin::ATan2: {
       Emitter()->Emit(Bytecode::Atan2, dest, src, VisitExpressionForRValue(call->Arguments()[1]));
       break;
@@ -1509,6 +1521,10 @@ void BytecodeGenerator::VisitBuiltinTrigCall(ast::CallExpr *call, ast::Builtin b
     }
     case ast::Builtin::Tan: {
       Emitter()->Emit(Bytecode::Tan, dest, src);
+      break;
+    }
+    case ast::Builtin::Log2: {
+      Emitter()->Emit(Bytecode::Log2, dest, src);
       break;
     }
     case ast::Builtin::Sqrt: {
@@ -2251,6 +2267,9 @@ void BytecodeGenerator::VisitBuiltinCallExpr(ast::CallExpr *call) {
     case ast::Builtin::ASin:
     case ast::Builtin::ATan:
     case ast::Builtin::ATan2:
+    case ast::Builtin::Cosh:
+    case ast::Builtin::Sinh:
+    case ast::Builtin::Tanh:
     case ast::Builtin::Cos:
     case ast::Builtin::Cot:
     case ast::Builtin::Sin:
@@ -2259,6 +2278,10 @@ void BytecodeGenerator::VisitBuiltinCallExpr(ast::CallExpr *call) {
     case ast::Builtin::Cbrt:
     case ast::Builtin::Round:
     case ast::Builtin::RoundUpTo: {
+      VisitBuiltinTrigCall(call, builtin);
+      break;
+    }
+    case ast::Builtin::Log2: {
       VisitBuiltinTrigCall(call, builtin);
       break;
     }
