@@ -151,6 +151,8 @@ namespace terrier::execution::ast {
   F(Cot, cot)                                                           \
   F(Sin, sin)                                                           \
   F(Tan, tan)                                                           \
+  F(Sqrt, sqrt)                                                         \
+  F(Cbrt, cbrt)                                                         \
                                                                         \
   /* Generic */                                                         \
   F(SizeOf, sizeOf)                                                     \

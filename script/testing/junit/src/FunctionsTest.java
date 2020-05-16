@@ -165,6 +165,17 @@ public class FunctionsTest extends TestUtility {
         checkDoubleFunc("tan", "double_val", false, -0.230318);
         checkDoubleFunc("tan", "double_val", true, null);
     }
+
+    @Test
+    public void testSqrt() throws SQLException {
+        checkDoubleFunc("sqrt", "double_val", false, 3.512834);
+        checkDoubleFunc("sqrt", "double_val", true, null);
+    }
+    @Test
+    public void testCbrt() throws SQLException {
+        checkDoubleFunc("cbrt", "double_val", false, 2.310850);
+        checkDoubleFunc("cbrt", "double_val", true, null);
+    }
     
     /**
      * String Functions
