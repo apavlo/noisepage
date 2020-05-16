@@ -1775,6 +1775,8 @@ void DatabaseCatalog::BootstrapProcs(const common::ManagedPointer<transaction::T
   // cot
   BOOTSTRAP_TRIG_FN("cot", postgres::COT_PRO_OID, execution::ast::Builtin::Cot)
 
+  // mod
+  BOOSTRAP_TRIG_FN("mod", postgres::MOD_PRO_OID, execution::ast::Builtin::Mod)
 #undef BOOTSTRAP_TRIG_FN
 
   auto str_type = GetTypeOidForType(type::TypeId::VARCHAR);
@@ -1826,6 +1828,13 @@ void DatabaseCatalog::BootstrapProcContexts(const common::ManagedPointer<transac
                                                            execution::ast::Builtin::Lower, true);
   SetProcCtxPtr(txn, postgres::LOWER_PRO_OID, func_context);
   txn->RegisterAbortAction([=]() { delete func_context; });
+
+  // need to consider reals too. in other parts of the code, mod is for reals, intmod is for ints just as a note
+  func_context = new execution::functions::FunctionContext("mod", type::TypeId::INTEGER, {type::TypeId::INTEGER, type::TypeId::DECIMAL},
+                                                           execution::ast::Builtin::Mod, true);
+  SetProcCtxPtr(txn, postgres::MOD_PRO_OID, func_context);
+  txn->RegisterAbortAction([=]() { delete func_context; });
+
 }
 
 bool DatabaseCatalog::SetProcCtxPtr(common::ManagedPointer<transaction::TransactionContext> txn, proc_oid_t proc_oid,
