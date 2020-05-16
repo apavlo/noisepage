@@ -2575,6 +2575,8 @@ void Sema::CheckBuiltinCall(ast::CallExpr *call) {
       CheckBuiltinIndexIteratorFree(call);
       break;
     }
+    case ast::Builtin::IntMod:
+    case ast::Builtin::Mod:
     case ast::Builtin::ACos:
     case ast::Builtin::ASin:
     case ast::Builtin::ATan:
