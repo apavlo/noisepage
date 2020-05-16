@@ -1784,6 +1784,9 @@ void DatabaseCatalog::BootstrapProcs(const common::ManagedPointer<transaction::T
   // cot
   BOOTSTRAP_TRIG_FN("cot", postgres::COT_PRO_OID, execution::ast::Builtin::Cot)
 
+  // log2
+  BOOTSTRAP_TRIG_FN("log2", postgres::LOG2_PRO_OID, execution::ast::Builtin::Log2)
+
 #undef BOOTSTRAP_TRIG_FN
 
   auto str_type = GetTypeOidForType(type::TypeId::VARCHAR);
@@ -1798,6 +1801,11 @@ void DatabaseCatalog::BootstrapProcs(const common::ManagedPointer<transaction::T
                   postgres::NAMESPACE_DEFAULT_NAMESPACE_OID, {"str"}, {str_type}, {str_type}, {}, str_type, "", true);
 
   // TODO(tanujnay112): no op codes for lower and upper yet
+
+  // position
+  CreateProcedure(txn, postgres::POSITION_PRO_OID, "position", postgres::INTERNAL_LANGUAGE_OID,
+                  postgres::NAMESPACE_DEFAULT_NAMESPACE_OID, {"str1", "str2"}, {str_type, str_type},
+                  {str_type, str_type}, {}, int_type, "", true);
 
   BootstrapProcContexts(txn);
 }
@@ -1843,6 +1851,10 @@ void DatabaseCatalog::BootstrapProcContexts(const common::ManagedPointer<transac
 
   // cot
   BOOTSTRAP_TRIG_FN("cot", postgres::COT_PRO_OID, execution::ast::Builtin::Cot)
+
+  // log2
+  BOOTSTRAP_TRIG_FN("log2", postgres::LOG2_PRO_OID, execution::ast::Builtin::Log2)
+
 #undef BOOTSTRAP_TRIG_FN
 
   // ascii
@@ -1855,6 +1867,12 @@ void DatabaseCatalog::BootstrapProcContexts(const common::ManagedPointer<transac
   func_context = new execution::functions::FunctionContext("lower", type::TypeId::VARCHAR, {type::TypeId::VARCHAR},
                                                            execution::ast::Builtin::Lower, true);
   SetProcCtxPtr(txn, postgres::LOWER_PRO_OID, func_context);
+
+  func_context = new execution::functions::FunctionContext("position", type::TypeId::INTEGER,
+                                                           {type::TypeId::VARCHAR, type::TypeId::VARCHAR},
+                                                           execution::ast::Builtin::Position, true);
+  SetProcCtxPtr(txn, postgres::POSITION_PRO_OID, func_context);
+
   txn->RegisterAbortAction([=]() { delete func_context; });
 }
 

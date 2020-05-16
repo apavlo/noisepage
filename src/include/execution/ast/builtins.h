@@ -154,6 +154,7 @@ namespace terrier::execution::ast {
   F(Cot, cot)                                                           \
   F(Sin, sin)                                                           \
   F(Tan, tan)                                                           \
+  F(Log2, log2)                                                         \
                                                                         \
   /* Generic */                                                         \
   F(SizeOf, sizeOf)                                                     \
@@ -249,6 +250,7 @@ namespace terrier::execution::ast {
   /* String functions */                                                \
   F(Lower, lower)                                                       \
   F(ASCII, ascii)
+  F(Position, position)
 
 /**
  * Enum of builtins
