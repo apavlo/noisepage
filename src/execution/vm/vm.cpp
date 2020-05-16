@@ -979,7 +979,7 @@ void VM::Interpret(const uint8_t *ip, Frame *frame) {
   GEN_MATH_OPS(Sub)
   GEN_MATH_OPS(Mul)
   GEN_MATH_OPS(Div)
-  GEN_MATH_OPS(Rem)
+  GEN_MATH_OPS(Mod)
 
 #undef GEN_MATH_OPS
 
