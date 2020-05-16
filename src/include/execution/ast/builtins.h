@@ -157,6 +157,7 @@ namespace terrier::execution::ast {
   F(Floor, floor)                                                       \
   F(Ceil, ceil)                                                         \
   F(Log10, log10)                                                       \
+  F(Log2, log2)                                                         \
                                                                         \
   /* Generic */                                                         \
   F(SizeOf, sizeOf)                                                     \

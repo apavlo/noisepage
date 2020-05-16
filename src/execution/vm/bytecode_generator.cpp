@@ -1533,6 +1533,8 @@ void BytecodeGenerator::VisitBuiltinTrigCall(ast::CallExpr *call, ast::Builtin b
     }
     case ast::Builtin::Log10: {
       Emitter()->Emit(Bytecode::Log10, dest, src);
+    case ast::Builtin::Log2: {
+      Emitter()->Emit(Bytecode::Log2, dest, src);
       break;
     }
     default: {
@@ -2265,6 +2267,10 @@ void BytecodeGenerator::VisitBuiltinCallExpr(ast::CallExpr *call) {
     case ast::Builtin::Ceil:
     case ast::Builtin::Log10:
     case ast::Builtin::Tan: {
+      VisitBuiltinTrigCall(call, builtin);
+      break;
+    }
+    case ast::Builtin::Log2: {
       VisitBuiltinTrigCall(call, builtin);
       break;
     }
