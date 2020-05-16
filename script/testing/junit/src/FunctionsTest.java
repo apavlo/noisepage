@@ -97,6 +97,22 @@ public class FunctionsTest extends TestUtility {
      * UDF statement tests
      * ---------------------------------------------
      */
+     
+     private void checkIntegerFunc(String func_name, String col_name, boolean is_null, Integer expected) throws SQLException {
+         String sql = String.format("SELECT %s(%s) AS result FROM data WHERE is_null = %s",
+                                    func_name, col_name, (is_null ? 1 : 0));
+         
+         Statement stmt = conn.createStatement();
+         ResultSet rs = stmt.executeQuery(sql);
+         boolean exists = rs.next();
+         assert(exists);
+         if (is_null) {
+             checkIntRow(rs, new String[]{"result"}, new Integer[]{null});
+         } else {
+             checkIntRow(rs, new String[]{"result"}, new Integer[]{expected});
+         }
+         assertNoMoreRows(rs);
+    }
 
     private void checkDoubleFunc(String func_name, String col_name, boolean is_null, Double expected) throws SQLException {
         String sql = String.format("SELECT %s(%s) AS result FROM data WHERE is_null = %s",
@@ -164,6 +180,24 @@ public class FunctionsTest extends TestUtility {
         checkDoubleFunc("log10", "double_val", false, 1.091315);
         checkDoubleFunc("log10", "double_val", true, null);
     }
+    @Test
+    public void testCosh() throws SQLException {
+        checkDoubleFunc("cosh", "double_val", false, 114330.976031);
+        checkDoubleFunc("cosh", "double_val", true, null);
+    }
+
+    @Test
+    public void testSinh() throws SQLException {
+        checkDoubleFunc("sinh", "double_val", false, 114330.976026);
+        checkDoubleFunc("sinh", "double_val", true, null);
+    }
+
+    @Test
+    public void testTanh() throws SQLException {
+        checkDoubleFunc("tanh", "double_val", false, 1.000000);
+        checkDoubleFunc("tanh", "double_val", true, null);
+    }
+    
     /**
      * String Functions
      */

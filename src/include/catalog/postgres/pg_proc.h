@@ -11,8 +11,8 @@
 #include "transaction/transaction_context.h"
 #include "type/type_id.h"
 
-#define HIGHEST_BUILTIN_PROC_ID catalog::postgres::UPPER_PRO_OID
-#define IS_BUILTIN_PROC(x) (x < HIGHEST_BUILTIN_PROC_ID)
+#define HIGHEST_BUILTIN_PROC_ID proc_oid_t(1000)  // FIXME: I set 1000 for now. Not sure what it really should be...
+#define IS_BUILTIN_PROC(x) (x <= HIGHEST_BUILTIN_PROC_ID)
 
 namespace terrier::catalog::postgres {
 
@@ -80,7 +80,9 @@ constexpr proc_oid_t COT_PRO_OID = proc_oid_t(91);
 constexpr proc_oid_t LOWER_PRO_OID = proc_oid_t(92);
 constexpr proc_oid_t UPPER_PRO_OID = proc_oid_t(93);
 constexpr proc_oid_t CEIL_PRO_OID = proc_oid_t(107);
+constexpr proc_oid_t COSH_PRO_OID = proc_oid_t(127);
+constexpr proc_oid_t SINH_PRO_OID = proc_oid_t(128);
+constexpr proc_oid_t TANH_PRO_OID = proc_oid_t(129);
 constexpr proc_oid_t FLOOR_PRO_OID = proc_oid_t(132);
 constexpr proc_oid_t LOG10_PRO_OID = proc_oid_t(134);
-
 }  // namespace terrier::catalog::postgres
