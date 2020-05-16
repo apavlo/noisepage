@@ -247,7 +247,8 @@ namespace terrier::execution::ast {
   F(GetParamString, getParamString)                                     \
                                                                         \
   /* String functions */                                                \
-  F(Lower, lower)
+  F(Lower, lower)                                                       \
+  F(ASCII, ascii)
 
 /**
  * Enum of builtins

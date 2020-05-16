@@ -1345,6 +1345,11 @@ VM_OP_WARM void OpValIsNotNull(bool *result, const terrier::execution::sql::Val 
 // String functions
 // ---------------------------------------------------------
 
+VM_OP_WARM void OpASCII(terrier::execution::exec::ExecutionContext *ctx, terrier::execution::sql::Integer *result,
+                        const terrier::execution::sql::StringVal *str) {
+  terrier::execution::sql::StringFunctions::ASCII(ctx, result, *str);
+}
+
 VM_OP_WARM void OpCharLength(terrier::execution::exec::ExecutionContext *ctx, terrier::execution::sql::Integer *result,
                              const terrier::execution::sql::StringVal *str) {
   terrier::execution::sql::StringFunctions::CharLength(ctx, result, *str);

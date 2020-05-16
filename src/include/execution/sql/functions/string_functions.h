@@ -21,6 +21,11 @@ class EXPORT StringFunctions {
   StringFunctions() = delete;
 
   /**
+   * Return the ASCII value of the first character in the string
+   */
+  static void ASCII(exec::ExecutionContext *ctx, Integer *result, const StringVal &str);
+
+  /**
    * Return the string length
    */
   static void CharLength(exec::ExecutionContext *ctx, Integer *result, const StringVal &str) {

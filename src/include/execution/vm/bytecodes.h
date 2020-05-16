@@ -461,6 +461,7 @@ namespace terrier::execution::vm {
   F(Pow, OperandType::Local, OperandType::Local, OperandType::Local)                                                  \
                                                                                                                       \
   /* String functions */                                                                                              \
+  F(ASCII, OperandType::Local, OperandType::Local, OperandType::Local)                                                \
   F(Left, OperandType::Local, OperandType::Local, OperandType::Local, OperandType::Local)                             \
   F(Length, OperandType::Local, OperandType::Local, OperandType::Local)                                               \
   F(Lower, OperandType::Local, OperandType::Local, OperandType::Local)                                                \

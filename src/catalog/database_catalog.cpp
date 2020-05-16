@@ -1787,6 +1787,11 @@ void DatabaseCatalog::BootstrapProcs(const common::ManagedPointer<transaction::T
 #undef BOOTSTRAP_TRIG_FN
 
   auto str_type = GetTypeOidForType(type::TypeId::VARCHAR);
+  auto int_type = GetTypeOidForType(type::TypeId::INTEGER);
+
+  // ascii
+  CreateProcedure(txn, postgres::ASCII_PRO_OID, "ascii", postgres::INTERNAL_LANGUAGE_OID,
+                  postgres::NAMESPACE_DEFAULT_NAMESPACE_OID, {"str"}, {str_type}, {str_type}, {}, int_type, "", true);
 
   // lower
   CreateProcedure(txn, postgres::LOWER_PRO_OID, "lower", postgres::INTERNAL_LANGUAGE_OID,
@@ -1840,6 +1845,13 @@ void DatabaseCatalog::BootstrapProcContexts(const common::ManagedPointer<transac
   BOOTSTRAP_TRIG_FN("cot", postgres::COT_PRO_OID, execution::ast::Builtin::Cot)
 #undef BOOTSTRAP_TRIG_FN
 
+  // ascii
+  func_context = new execution::functions::FunctionContext("ascii", type::TypeId::INTEGER, {type::TypeId::VARCHAR},
+                                                           execution::ast::Builtin::ASCII, true);
+  SetProcCtxPtr(txn, postgres::ASCII_PRO_OID, func_context);
+  txn->RegisterAbortAction([=]() { delete func_context; });
+
+  // lower
   func_context = new execution::functions::FunctionContext("lower", type::TypeId::VARCHAR, {type::TypeId::VARCHAR},
                                                            execution::ast::Builtin::Lower, true);
   SetProcCtxPtr(txn, postgres::LOWER_PRO_OID, func_context);
