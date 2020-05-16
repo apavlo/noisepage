@@ -1775,6 +1775,12 @@ void DatabaseCatalog::BootstrapProcs(const common::ManagedPointer<transaction::T
   // cot
   BOOTSTRAP_TRIG_FN("cot", postgres::COT_PRO_OID, execution::ast::Builtin::Cot)
 
+  // sqrt
+  BOOTSTRAP_TRIG_FN("sqrt", postgres::SQRT_PRO_OID, execution::ast::Builtin::Sqrt)
+
+  // cbrt
+  BOOTSTRAP_TRIG_FN("cbrt", postgres::CBRT_PRO_OID, execution::ast::Builtin::Cbrt)
+
 #undef BOOTSTRAP_TRIG_FN
 
   auto str_type = GetTypeOidForType(type::TypeId::VARCHAR);
@@ -1820,6 +1826,12 @@ void DatabaseCatalog::BootstrapProcContexts(const common::ManagedPointer<transac
 
   // cot
   BOOTSTRAP_TRIG_FN("cot", postgres::COT_PRO_OID, execution::ast::Builtin::Cot)
+
+  // sqrt
+  BOOTSTRAP_TRIG_FN("sqrt", postgres::SQRT_PRO_OID, execution::ast::Builtin::Sqrt)
+
+  // cbrt
+  BOOTSTRAP_TRIG_FN("cbrt", postgres::CBRT_PRO_OID, execution::ast::Builtin::Cbrt)
 #undef BOOTSTRAP_TRIG_FN
 
   func_context = new execution::functions::FunctionContext("lower", type::TypeId::VARCHAR, {type::TypeId::VARCHAR},
