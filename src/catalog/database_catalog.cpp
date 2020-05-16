@@ -1786,6 +1786,10 @@ void DatabaseCatalog::BootstrapProcs(const common::ManagedPointer<transaction::T
 
 #undef BOOTSTRAP_TRIG_FN
 
+  // log2
+  CreateProcedure(txn, postgres::LOG2_PRO_OID, "log2", postgres::INTERNAL_LANGUAGE_OID,
+                  postgres::NAMESPACE_DEFAULT_NAMESPACE_OID, {"val"}, {dec_type}, {dec_type}, {}, dec_type, "", true);
+
   auto str_type = GetTypeOidForType(type::TypeId::VARCHAR);
 
   // lower

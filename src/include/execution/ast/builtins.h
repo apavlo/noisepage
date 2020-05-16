@@ -154,6 +154,7 @@ namespace terrier::execution::ast {
   F(Cot, cot)                                                           \
   F(Sin, sin)                                                           \
   F(Tan, tan)                                                           \
+  F(Log2, log2)                                                         \
                                                                         \
   /* Generic */                                                         \
   F(SizeOf, sizeOf)                                                     \
@@ -252,7 +253,8 @@ namespace terrier::execution::ast {
 /**
  * Enum of builtins
  */
-enum class Builtin : uint8_t {
+enum class
+    Builtin : uint8_t {
 #define ENTRY(Name, ...) Name,
   BUILTINS_LIST(ENTRY)
 #undef ENTRY
