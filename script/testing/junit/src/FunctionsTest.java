@@ -130,7 +130,7 @@ public class FunctionsTest extends TestUtility {
         assertNoMoreRows(rs);
     }
 
-    private void checkFuncRound2(String func_name, String col_name, String precision, boolean is_null, Double expected) throws SQLException {
+    private void checkRoundFunc(String func_name, String col_name, String precision, boolean is_null, Double expected) throws SQLException {
         String sql = String.format("SELECT %s(%s,%s) AS result FROM data WHERE is_null = %s",
                                    func_name, col_name, precision, (is_null ? 1 : 0));
 
@@ -149,7 +149,7 @@ public class FunctionsTest extends TestUtility {
     private void checkStringFunc(String func_name, String col_name, boolean is_null, String expected) throws SQLException {
         String sql = String.format("SELECT %s(%s) AS result FROM data WHERE is_null = %s",
                                    func_name, col_name, (is_null ? 1 : 0));
-        
+
         Statement stmt = conn.createStatement();
         ResultSet rs = stmt.executeQuery(sql);
         boolean exists = rs.next();
@@ -162,7 +162,22 @@ public class FunctionsTest extends TestUtility {
         assertNoMoreRows(rs);
     }
 
-    private void checkStringFunc(String func_name, String col_name, boolean is_null, int expected) throws SQLException {
+    private void checkStringPositionFunc(String func_name, String substring, String col_name, boolean is_null, Integer expected) throws SQLException {
+        String sql = String.format("SELECT %s(\'%s\' IN %s) AS result FROM data WHERE is_null = %s", func_name, substring, col_name, (is_null ? 1 : 0));
+
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(sql);
+        boolean exists = rs.next();
+        assert(exists);
+        if (is_null) {
+            checkIntRow(rs, new String[]{"result"}, new Integer[1]);
+        } else {
+            checkIntRow(rs, new String[]{"result"}, new Integer[]{expected});
+        }
+        assertNoMoreRows(rs);
+    }
+
+    private void checkStringLengthFunc(String func_name, String col_name, boolean is_null, Integer expected) throws SQLException {
         String sql = String.format("SELECT %s(%s) AS result FROM data WHERE is_null = %s",
                                    func_name, col_name, (is_null ? 1 : 0));
 
@@ -171,9 +186,9 @@ public class FunctionsTest extends TestUtility {
         boolean exists = rs.next();
         assert(exists);
         if (is_null) {
-            checkIntegerRow(rs, new String[]{"result"}, new Integer[]{null});
+            checkIntRow(rs, new String[]{"result"}, new Integer[]{null});
         } else {
-            checkIntegerRow(rs, new String[]{"result"}, new Integer[]{expected});
+            checkIntRow(rs, new String[]{"result"}, new Integer[]{expected});
         }
         assertNoMoreRows(rs);
     }
@@ -231,11 +246,8 @@ public class FunctionsTest extends TestUtility {
     public void testRound() throws SQLException {
         checkDoubleFunc("round", "double_val", false, 12.0);
         checkDoubleFunc("round", "double_val", true, null);
-    }
-    @Test
-    public void testRound2() throws SQLException {
-        checkFuncRound2("round", "double_val", "1", false, 12.3);
-        checkFuncRound2("round", "double_val", "1", true, null);
+        checkRoundFunc("round", "double_val", "1", false, 12.3);
+        checkRoundFunc("round", "double_val", "1", true, null);
     }
 
     /**
@@ -247,9 +259,15 @@ public class FunctionsTest extends TestUtility {
         checkStringFunc("lower", "str_a_val", true, null);
     }
     @Test
-    public void testLength() throws SQLException {
-        checkStringFunc("length", "str_a_val", false, 6);
-        checkStringFunc("length", "str_a_val", true, null);
+    public void testPosition() throws SQLException {
+        checkStringPositionFunc("position", "bC", "str_a_val", false, 2);
+        checkStringPositionFunc("position", "bc", "str_a_val", false, 2);
+        checkStringPositionFunc("position", "aa", "str_a_val", false, 0);
+        checkStringPositionFunc("position", "bC", "str_a_val", true, null);
     }
-
+    @Test
+    public void testLength() throws SQLException {
+        checkStringLengthFunc("length", "str_a_val", false, 6);
+        checkStringLengthFunc("length", "str_a_val", true, null);
+    }
 }

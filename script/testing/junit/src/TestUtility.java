@@ -49,25 +49,6 @@ public class TestUtility {
         assertEquals(columns.length, expected.length);
         for (int i=0; i<columns.length; i++) {
             Integer val = (Integer)rs.getObject(columns[i]);
-            if (expected[i] == null) {
-                assertEquals(expected[i], val);
-            } else {
-                assertEquals(expected[i], val);
-            }
-        }
-    }
-
-    /**
-     * Check a single row of integer queried values against expected values
-     *
-     * @param rs              resultset, with cursor at the desired row
-     * @param columns         column names
-     * @param expected expected values of columns
-     */
-    public void checkIntegerRow(ResultSet rs, String [] columns, Integer [] expected) throws SQLException {
-        assertEquals(columns.length, expected.length);
-        for (int i=0; i<columns.length; i++) {
-            Integer val = (Integer)rs.getInt(columns[i]);
             assertEquals(expected[i], val);
         }
     }

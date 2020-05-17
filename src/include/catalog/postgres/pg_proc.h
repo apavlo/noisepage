@@ -84,6 +84,7 @@ constexpr proc_oid_t SINH_PRO_OID = proc_oid_t(128);
 constexpr proc_oid_t TANH_PRO_OID = proc_oid_t(129);
 constexpr proc_oid_t LOG2_PRO_OID = proc_oid_t(133);
 
+constexpr proc_oid_t POSITION_PRO_OID = proc_oid_t(105);
 constexpr proc_oid_t LENGTH_PRO_OID = proc_oid_t(114);
 constexpr proc_oid_t SQRT_PRO_OID = proc_oid_t(130);
 constexpr proc_oid_t CBRT_PRO_OID = proc_oid_t(131);
