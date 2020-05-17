@@ -42,10 +42,10 @@ public class FunctionsTest extends TestUtility {
         stmt.execute(SQL_CREATE_TABLE);
 
         String sql = "INSERT INTO data (" +
-                     "int_val, double_val, mod_val, str_i_val, str_a_val, " +
+                     "int_val, double_val, mod_double_val, mod_int_val, str_i_val, str_a_val, " +
 //                      "bool_val, " + 
                      "is_null " +
-                     ") VALUES (?, ?, ?, ?, ?, ?);";
+                     ") VALUES (?, ?, ?, ?, ?, ?, ?);";
         PreparedStatement pstmt = conn.prepareStatement(sql);
 
         // Non-Null Values
@@ -53,6 +53,7 @@ public class FunctionsTest extends TestUtility {
         pstmt.setInt(idx++, 123);
         pstmt.setDouble(idx++, 12.34);
         pstmt.setDouble(idx++, 3.0);
+        pstmt.setInt(idx++, 4);
         pstmt.setString(idx++, "123456");
         pstmt.setString(idx++, "AbCdEf");
 //         pstmt.setBoolean(idx++, true);
@@ -65,6 +66,7 @@ public class FunctionsTest extends TestUtility {
         pstmt.setNull(idx++, java.sql.Types.INTEGER);
         pstmt.setNull(idx++, java.sql.Types.DOUBLE);
         pstmt.setNull(idx++, java.sql.Types.DOUBLE);
+        pstmt.setNull(idx++, java.sql.Types.INTEGER);
         pstmt.setNull(idx++, java.sql.Types.VARCHAR);
         pstmt.setNull(idx++, java.sql.Types.VARCHAR);
 //         pstmt.setNull(idx++, java.sql.Types.BOOLEAN);
@@ -115,7 +117,7 @@ public class FunctionsTest extends TestUtility {
         assertNoMoreRows(rs);
     }
     
-    private void checkIntInfixFunc(String operator, String col1, String col2, boolean is_null, int expected) throws SQLException {
+    private void checkIntInfixFunc(String operator, String col1, String col2, boolean is_null, Integer expected) throws SQLException {
         String sql = String.format("SELECT %s %s %s AS result FROM data WHERE is_null = %s",
                                     col1, operator, col2, (is_null ? 1 : 0));
         Statement stmt = conn.createStatement();
@@ -123,9 +125,9 @@ public class FunctionsTest extends TestUtility {
         boolean exists = rs.next();
         assert(exists);
         if (is_null) {
-            checkIntRow(rs, new String[]{"result"}, new int[]{null});
+            checkIntRow(rs, new String[]{"result"}, new Integer[]{null});
         } else {
-            checkIntRow(rs, new String[]{"result"}, new int[]{expected});
+            checkIntRow(rs, new String[]{"result"}, new Integer[]{expected});
         }
         assertNoMoreRows(rs);
     }
@@ -184,8 +186,10 @@ public class FunctionsTest extends TestUtility {
     }
     @Test
     public void testMod() throws SQLException {
-        checkDoubleInfixFunc("%", "double_val", "mod_val", false, 0.34);
-        checkDoubleInfixFunc("%", "double_val", "mod_val", true, null);
+        checkDoubleInfixFunc("%", "double_val", "mod_double_val", false, 0.34);
+        checkDoubleInfixFunc("%", "double_val", "mod_double_val", true, null);
+        checkIntInfixFunc("%", "double_val", "mod_int_val", false, 3);
+        checkIntInfixFunc("%", "double_val", "mod_int_val", true, null);
     }
     /**
      * String Functions
