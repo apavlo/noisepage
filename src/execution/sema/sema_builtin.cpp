@@ -2256,7 +2256,7 @@ void Sema::CheckBuiltinStringCall(ast::CallExpr *call, ast::Builtin builtin) {
     }
     case ast::Builtin::Lpad:
     case ast::Builtin::Rpad: {
-      if(!CheckArgCount(call, 4)) {
+      if (!CheckArgCount(call, 4)) {
         return;
       }
 
@@ -2299,7 +2299,7 @@ void Sema::CheckBuiltinStringCall(ast::CallExpr *call, ast::Builtin builtin) {
     }
     case ast::Builtin::Ltrim:
     case ast::Builtin::Rtrim: {
-      if(!CheckArgCount(call, 2) || !CheckArgCount(call, 3)) {
+      if (!CheckArgCount(call, 2) || !CheckArgCount(call, 3)) {
         return;
       }
 
