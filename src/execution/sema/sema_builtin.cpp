@@ -2698,10 +2698,7 @@ void Sema::CheckBuiltinCall(ast::CallExpr *call) {
       break;
     }
     case ast::Builtin::Lower:
-    case ast::Builtin::Length: {
-      CheckBuiltinStringCall(call, builtin);
-      break;
-    }
+    case ast::Builtin::Length:
     case ast::Builtin::Position: {
       CheckBuiltinStringCall(call, builtin);
       break;
