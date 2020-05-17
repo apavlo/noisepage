@@ -1809,18 +1809,18 @@ void DatabaseCatalog::BootstrapProcs(const common::ManagedPointer<transaction::T
   CreateProcedure(txn, postgres::LOWER_PRO_OID, "lower", postgres::INTERNAL_LANGUAGE_OID,
                   postgres::NAMESPACE_DEFAULT_NAMESPACE_OID, {"str"}, {str_type}, {str_type}, {}, str_type, "", true);
 
+  // TODO(tanujnay112): no op codes for lower and upper yet
+
   // length
   CreateProcedure(txn, postgres::LENGTH_PRO_OID, "length", postgres::INTERNAL_LANGUAGE_OID,
                   postgres::NAMESPACE_DEFAULT_NAMESPACE_OID, {"str"}, {str_type}, {str_type}, {}, int_type, "", true);
-
-  // TODO(tanujnay112): no op codes for lower and upper yet
 
   BootstrapProcContexts(txn);
 }
 
 void DatabaseCatalog::BootstrapProcContexts(const common::ManagedPointer<transaction::TransactionContext> txn) {
-  auto func_context = new execution::functions::FunctionContext("atan2", type::TypeId::DECIMAL, {type::TypeId::DECIMAL},
-                                                                execution::ast::Builtin::ATan2);
+  auto func_context = new execution::functions::FunctionContext(
+      "atan2", type::TypeId::DECIMAL, {type::TypeId::DECIMAL, type::TypeId::DECIMAL}, execution::ast::Builtin::ATan2);
   txn->RegisterAbortAction([=]() { delete func_context; });
   SetProcCtxPtr(txn, postgres::ATAN2_PRO_OID, func_context);
 
@@ -1875,10 +1875,10 @@ void DatabaseCatalog::BootstrapProcContexts(const common::ManagedPointer<transac
 #undef BOOTSTRAP_TRIG_FN
 
   // round2
-  func_context = new execution::functions::FunctionContext("round", type::TypeId::DECIMAL, {type::TypeId::DECIMAL},
-                                                           execution::ast::Builtin::Round2);
-  txn->RegisterAbortAction([=]() { delete func_context; });
+  func_context = new execution::functions::FunctionContext(
+      "round", type::TypeId::DECIMAL, {type::TypeId::DECIMAL, type::TypeId::INTEGER}, execution::ast::Builtin::Round2);
   SetProcCtxPtr(txn, postgres::ROUND2_PRO_OID, func_context);
+  txn->RegisterAbortAction([=]() { delete func_context; });
 
   // lower
   func_context = new execution::functions::FunctionContext("lower", type::TypeId::VARCHAR, {type::TypeId::VARCHAR},
