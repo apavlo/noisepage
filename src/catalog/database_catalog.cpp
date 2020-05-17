@@ -1778,6 +1778,7 @@ void DatabaseCatalog::BootstrapProcs(const common::ManagedPointer<transaction::T
 #undef BOOTSTRAP_TRIG_FN
 
   auto str_type = GetTypeOidForType(type::TypeId::VARCHAR);
+  auto int_type = GetTypeOidForType(type::TypeId::INTEGER);
 
   // lower
   CreateProcedure(txn, postgres::LOWER_PRO_OID, "lower", postgres::INTERNAL_LANGUAGE_OID,
@@ -1786,7 +1787,7 @@ void DatabaseCatalog::BootstrapProcs(const common::ManagedPointer<transaction::T
   // lpad
   CreateProcedure(txn, postgres::LPAD_PRO_OID, "lpad", postgres::INTERNAL_LANGUAGE_OID,
                   postgres::NAMESPACE_DEFAULT_NAMESPACE_OID, {"str", "len", "pad"},
-                  {str_type, dec_type, str_type}, {str_type, dec_type, str_type}, {}, str_type, "", true);
+                  {str_type, dec_type, str_type}, {str_type, int_type, str_type}, {}, str_type, "", true);
 
   // ltrim2arg
   CreateProcedure(txn, postgres::LTRIM2ARG_PRO_OID, "ltrim", postgres::INTERNAL_LANGUAGE_OID,
@@ -1801,7 +1802,7 @@ void DatabaseCatalog::BootstrapProcs(const common::ManagedPointer<transaction::T
   // rpad
   CreateProcedure(txn, postgres::RPAD_PRO_OID, "rpad", postgres::INTERNAL_LANGUAGE_OID,
                   postgres::NAMESPACE_DEFAULT_NAMESPACE_OID, {"str", "len", "pad"},
-                  {str_type, dec_type, str_type}, {str_type, dec_type, str_type}, {}, str_type, "", true);
+                  {str_type, dec_type, str_type}, {str_type, int_type, str_type}, {}, str_type, "", true);
 
   // rtrim2arg
   CreateProcedure(txn, postgres::RTRIM2ARG_PRO_OID, "rtrim", postgres::INTERNAL_LANGUAGE_OID,
@@ -1853,6 +1854,42 @@ void DatabaseCatalog::BootstrapProcContexts(const common::ManagedPointer<transac
   func_context = new execution::functions::FunctionContext("lower", type::TypeId::VARCHAR, {type::TypeId::VARCHAR},
                                                            execution::ast::Builtin::Lower, true);
   SetProcCtxPtr(txn, postgres::LOWER_PRO_OID, func_context);
+  txn->RegisterAbortAction([=]() { delete func_context; });
+
+  func_context = new execution::functions::FunctionContext("lpad", type::TypeId::VARCHAR,
+                                                           {type::TypeId::VARCHAR, type::TypeId::INTEGER, type::TypeId::VARCHAR},
+                                                           execution::ast::Builtin::Lpad, true);
+  SetProcCtxPtr(txn, postgres::LPAD_PRO_OID, func_context);
+  txn->RegisterAbortAction([=]() { delete func_context; });
+
+  func_context = new execution::functions::FunctionContext("ltrim", type::TypeId::VARCHAR,
+                                                           {type::TypeId::VARCHAR, type::TypeId::VARCHAR},
+                                                           execution::ast::Builtin::Ltrim, true);
+  SetProcCtxPtr(txn, postgres::LTRIM2ARG_PRO_OID, func_context);
+  txn->RegisterAbortAction([=]() { delete func_context; });
+
+  func_context = new execution::functions::FunctionContext("ltrim", type::TypeId::VARCHAR,
+                                                           {type::TypeId::VARCHAR},
+                                                           execution::ast::Builtin::Ltrim, true);
+  SetProcCtxPtr(txn, postgres::LTRIM1ARG_PRO_OID, func_context);
+  txn->RegisterAbortAction([=]() { delete func_context; });
+
+  func_context = new execution::functions::FunctionContext("rpad", type::TypeId::VARCHAR,
+                                                           {type::TypeId::VARCHAR, type::TypeId::INTEGER, type::TypeId::VARCHAR},
+                                                           execution::ast::Builtin::Rpad, true);
+  SetProcCtxPtr(txn, postgres::RPAD_PRO_OID, func_context);
+  txn->RegisterAbortAction([=]() { delete func_context; });
+
+  func_context = new execution::functions::FunctionContext("rtrim", type::TypeId::VARCHAR,
+                                                           {type::TypeId::VARCHAR, type::TypeId::VARCHAR},
+                                                           execution::ast::Builtin::Rtrim, true);
+  SetProcCtxPtr(txn, postgres::RTRIM2ARG_PRO_OID, func_context);
+  txn->RegisterAbortAction([=]() { delete func_context; });
+
+  func_context = new execution::functions::FunctionContext("rtrim", type::TypeId::VARCHAR,
+                                                           {type::TypeId::VARCHAR},
+                                                           execution::ast::Builtin::Rtrim, true);
+  SetProcCtxPtr(txn, postgres::RTRIM1ARG_PRO_OID, func_context);
   txn->RegisterAbortAction([=]() { delete func_context; });
 }
 

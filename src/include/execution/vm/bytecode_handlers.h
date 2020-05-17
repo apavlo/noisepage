@@ -1371,17 +1371,16 @@ VM_OP_WARM void OpLPad(terrier::execution::exec::ExecutionContext *ctx, terrier:
   terrier::execution::sql::StringFunctions::Lpad(ctx, result, *str, *len, *pad);
 }
 
-VM_OP_WARM void OpLTrim3Arg(terrier::execution::exec::ExecutionContext *ctx, terrier::execution::sql::StringVal *result,
+VM_OP_WARM void OpLTrim2Arg(terrier::execution::exec::ExecutionContext *ctx, terrier::execution::sql::StringVal *result,
                         const terrier::execution::sql::StringVal *str,
                         const terrier::execution::sql::StringVal *chars) {
   terrier::execution::sql::StringFunctions::Ltrim(ctx, result, *str, *chars);
 }
 
-VM_OP_WARM void OpLTrim2Arg(terrier::execution::exec::ExecutionContext *ctx, terrier::execution::sql::StringVal *result,
+VM_OP_WARM void OpLTrim1Arg(terrier::execution::exec::ExecutionContext *ctx, terrier::execution::sql::StringVal *result,
                         const terrier::execution::sql::StringVal *str) {
   terrier::execution::sql::StringFunctions::Ltrim(ctx, result, *str);
 }
-
 
 VM_OP_WARM void OpRepeat(terrier::execution::exec::ExecutionContext *ctx, terrier::execution::sql::StringVal *result,
                          const terrier::execution::sql::StringVal *str, const terrier::execution::sql::Integer *n) {
@@ -1404,10 +1403,15 @@ VM_OP_WARM void OpRPad(terrier::execution::exec::ExecutionContext *ctx, terrier:
   terrier::execution::sql::StringFunctions::Rpad(ctx, result, *str, *n, *pad);
 }
 
-VM_OP_WARM void OpRTrim(terrier::execution::exec::ExecutionContext *ctx, terrier::execution::sql::StringVal *result,
-                        const terrier::execution::sql::StringVal *str,
-                        const terrier::execution::sql::StringVal *chars) {
-  terrier::execution::sql::StringFunctions::Rtrim(ctx, result, *str, *chars);
+VM_OP_WARM void OpRTrim2Arg(terrier::execution::exec::ExecutionContext *ctx, terrier::execution::sql::StringVal *result,
+                            const terrier::execution::sql::StringVal *str,
+                            const terrier::execution::sql::StringVal *chars) {
+  terrier::execution::sql::StringFunctions::Ltrim(ctx, result, *str, *chars);
+}
+
+VM_OP_WARM void OpRTrim1Arg(terrier::execution::exec::ExecutionContext *ctx, terrier::execution::sql::StringVal *result,
+                            const terrier::execution::sql::StringVal *str) {
+  terrier::execution::sql::StringFunctions::Ltrim(ctx, result, *str);
 }
 
 VM_OP_WARM void OpSplitPart(terrier::execution::exec::ExecutionContext *ctx, terrier::execution::sql::StringVal *result,
