@@ -249,7 +249,7 @@ namespace terrier::execution::ast {
                                                                         \
   /* String functions */                                                \
   F(Lower, lower)                                                       \
-  F(ASCII, ascii)
+  F(ASCII, ascii)                                                       \
   F(Position, position)
 
 /**
