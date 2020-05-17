@@ -2390,17 +2390,12 @@ void BytecodeGenerator::VisitBuiltinCallExpr(ast::CallExpr *call) {
       VisitBuiltinParamCall(call, builtin);
       break;
     }
-
     case ast::Builtin::Lower:
+    case ast::Builtin::Position:
     case ast::Builtin::Length: {
       VisitBuiltinStringCall(call, builtin);
       break;
     }
-    case ast::Builtin::Position: {
-      VisitBuiltinStringCall(call, builtin);
-      break;
-    }
-
     default: {
       UNREACHABLE("Builtin not supported!");
     }
